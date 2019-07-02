@@ -1,3 +1,29 @@
 # Python Application for Label Detection using Flask
 
 •Created a pythonflask applicationthat allows users to upload an image, makesan API call to Google Vision API and extract labels (i.e., do "Label Detection")and Image Classification and show results from Vision API on the UI.
+
+
+def review_to_words(raw_review):
+    # Function to convert a raw review to a string of words
+    # The input is a single string (a raw movie review), and 
+    # the output is a single string (a preprocessed movie review)
+    #
+    # 1. Remove HTML
+    review_text = BeautifulSoup(raw_review).get_text()
+    #
+    # 2. Remove non-letters        
+    letters_only = re.sub("[^a-zA-Z]", " ", review_text)
+    #
+    # 3. Convert to lower case, split into individual words
+    words = letters_only.lower().split()
+    #
+    # 4. In Python, searching a set is much faster than searching
+    #   a list, so convert the stop words to a set
+    stops = set(stopwords.words('english'))
+    # 
+    # 5. Remove stop words
+    meaningful_words = [w for w in words if not w in stops]
+    #
+    # 6. Join the words back into one string separated by space, 
+    # and return the result.
+    return(" ".join(meaningful_words))
